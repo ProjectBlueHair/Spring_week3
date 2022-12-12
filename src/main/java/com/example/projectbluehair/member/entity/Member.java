@@ -9,13 +9,13 @@ import java.util.ArrayList;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Member {
+public class Member extends TimeStamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String memberName;
 
     @Column(nullable = false)
     private String password;
