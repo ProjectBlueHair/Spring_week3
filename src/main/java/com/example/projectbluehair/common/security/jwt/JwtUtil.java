@@ -28,7 +28,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtUtil {
     // Header의 Key 값
-    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String AUTHORIZATION_ACCESS = "AccessToken";
     // 사용자 권한 값의 Key
     public static final String AUTHORIZATION_KEY = "auth";
     private final UserDetailsServiceImpl userDetailsService;
@@ -54,7 +54,7 @@ public class JwtUtil {
 
     // header 토큰을 가져오기
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER); // Authorization의 value를 가지고옴
+        String bearerToken = request.getHeader(AUTHORIZATION_ACCESS); // Authorization의 value를 가지고옴
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) { // Bearer 값 있는지 확인
             return bearerToken.substring(7); // 확인되면 Bearer 빼고 반환
         }
@@ -83,6 +83,7 @@ public class JwtUtil {
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
         } catch (ExpiredJwtException e) {
+            // 만료된 경우 토큰 재발급
             log.info("Expired JWT token, 만료된 JWT token 입니다.");
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
