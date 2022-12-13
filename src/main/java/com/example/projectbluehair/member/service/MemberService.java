@@ -89,8 +89,8 @@ public class MemberService {
             throw new CustomMemberException(CustomMemberErrorCode.INCORRECT_PASSWORD);
         }
 
-        // 3. Token
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getMemberName(), member.getRole()));
+        // 3. Token 발급
+        response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, jwtUtil.createToken(member.getMemberName(), member.getRole()));
 
         return new LoginResponseDto(member);
     }
