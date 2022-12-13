@@ -1,6 +1,7 @@
 package com.example.projectbluehair.comment.entity;
 
 import com.example.projectbluehair.comment.dto.CommentDto;
+import com.example.projectbluehair.forum.entity.Forum;
 import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.entity.TimeStamp;
 import lombok.Getter;
@@ -28,9 +29,9 @@ public class Comment extends TimeStamp {
     private Member member;
 
     //댓글 --N:1--> 게시글
-   /* @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "FORUM_ID", nullable = false)
-    private Forum forum;*/
+    private Forum forum;
 
     //댓글 --1:N--> 댓글좋아요
     @OneToMany
@@ -45,8 +46,19 @@ public class Comment extends TimeStamp {
     @OneToMany(mappedBy = "parentCommentId") //부모입장
     private List<Comment> commentList = new ArrayList<>();
 
-
-    public Comment(CommentDto commentDto, long memberId, long forum_id, long parentCommentId) {
-
+    public Comment(String content, Member member, Forum forum) {
+        this.content = content;
+        this.member = member;
+        this.forum = forum;
     }
+
+
+
+
+    /*public Comment(String content, Member member, Forum forum, Comment parentCommentId) {
+        this.content = content;
+        this.member = member;
+        this.forum = forum;
+        this.parentCommentId = parentCommentId; //모르겠다.
+    }*/
 }
