@@ -6,9 +6,11 @@ import lombok.Getter;
 @Getter
 public class CommentDto {
     private String content;
+    private Long parentCommentId;
 
     @Builder
-    public CommentDto(String content) {
+    public CommentDto(String content, Long parentCommentId) {
         this.content = content;
+        this.parentCommentId = parentCommentId;
     }
 }
