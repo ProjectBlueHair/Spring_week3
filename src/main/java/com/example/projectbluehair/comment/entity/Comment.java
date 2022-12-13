@@ -1,7 +1,8 @@
 package com.example.projectbluehair.comment.entity;
 
-import com.example.projectbluehair.forum.entity.Forum;
+import com.example.projectbluehair.comment.dto.CommentDto;
 import com.example.projectbluehair.member.entity.Member;
+import com.example.projectbluehair.member.entity.TimeStamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,11 +13,11 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Comment {
+public class Comment extends TimeStamp {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "COMMENT_ID")
-    private Long commentId;
+    private Long commentid;
 
     @Column(nullable = false)
     private String content;
@@ -27,9 +28,9 @@ public class Comment {
     private Member member;
 
     //댓글 --N:1--> 게시글
-    @ManyToOne
+   /* @ManyToOne
     @JoinColumn(name = "FORUM_ID", nullable = false)
-    private Forum forum;
+    private Forum forum;*/
 
     //댓글 --1:N--> 댓글좋아요
     @OneToMany
@@ -43,4 +44,9 @@ public class Comment {
 
     @OneToMany(mappedBy = "parentCommentId") //부모입장
     private List<Comment> commentList = new ArrayList<>();
+
+
+    public Comment(CommentDto commentDto, long memberId, long forum_id, long parentCommentId) {
+
+    }
 }
