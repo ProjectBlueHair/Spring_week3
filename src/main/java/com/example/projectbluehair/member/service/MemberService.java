@@ -7,8 +7,8 @@ import com.example.projectbluehair.member.dto.SignUpDto;
 import com.example.projectbluehair.member.dto.SignUpResponseDto;
 import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.entity.MemberRole;
-import com.example.projectbluehair.member.exception.MemberCustomException;
-import com.example.projectbluehair.member.exception.MemberErrorCode;
+import com.example.projectbluehair.member.exception.CustomMemberException;
+import com.example.projectbluehair.member.exception.CustomMemberErrorCode;
 import com.example.projectbluehair.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,18 +41,18 @@ public class MemberService {
         // 1. MemberName 확인
         // 1-1. MemberName 형식 확인
         if(!validator.isValidMemberName(memberName)){
-            throw new MemberCustomException(MemberErrorCode.INVALID_MEMBERNAME);
+            throw new CustomMemberException(CustomMemberErrorCode.INVALID_MEMBERNAME);
         }
         // 1-2. MemberName 중복 확인
         memberRepository.findByMemberName(memberName)
                 .ifPresent(m-> {
-                    throw new MemberCustomException(MemberErrorCode.DUPLICATE_MEMBERNAME);
+                    throw new CustomMemberException(CustomMemberErrorCode.DUPLICATE_MEMBERNAME);
                 });
         
         // 2. Password 확인
         // 2-1. Password 형식 확인
         if(!validator.isValidPassword(password)){
-            throw new MemberCustomException(MemberErrorCode.INVALID_PASSWORD);
+            throw new CustomMemberException(CustomMemberErrorCode.INVALID_PASSWORD);
         }
         // 2-2. Password 암호화
         password = passwordEncoder.encode(password);
@@ -60,7 +60,7 @@ public class MemberService {
         // 3. 사용자 ROLE 확인
         if(dto.isAdmin()) {
             if(!dto.getAdminToken().equals(ADMIN_TOKEN)) {
-                throw new MemberCustomException(MemberErrorCode.INVALID_AUTH_TOKEN);
+                throw new CustomMemberException(CustomMemberErrorCode.INVALID_AUTH_TOKEN);
             }
             // 3-1. 토큰 일치할 경우 ADMIN 부여
             role = MemberRole.ADMIN;
@@ -82,11 +82,11 @@ public class MemberService {
 
         // 1. 사용자 존재 여부 확인
         Member member = memberRepository.findByMemberName(memberName)
-                .orElseThrow(()-> new MemberCustomException(MemberErrorCode.MEMBER_NOT_FOUND));
+                .orElseThrow(()-> new CustomMemberException(CustomMemberErrorCode.MEMBER_NOT_FOUND));
 
         // 2. 비밀번호 일치 여부 확인
         if(!passwordEncoder.matches(password, member.getPassword())){
-            throw new MemberCustomException(MemberErrorCode.INCORRECT_PASSWORD);
+            throw new CustomMemberException(CustomMemberErrorCode.INCORRECT_PASSWORD);
         }
 
         // 3. Token

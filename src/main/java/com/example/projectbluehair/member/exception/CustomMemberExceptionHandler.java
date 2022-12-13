@@ -8,11 +8,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @Slf4j
 @RestControllerAdvice
-public class MemberExceptionHandler extends ResponseEntityExceptionHandler {
+public class CustomMemberExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { MemberCustomException.class })
-    protected ResponseEntity<MemberErrorResponse> handleCustomException(MemberCustomException e) {
+    @ExceptionHandler(value = { CustomMemberException.class })
+    protected ResponseEntity<CustomMemberErrorResponse> handleCustomException(CustomMemberException e) {
         log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
-        return MemberErrorResponse.toResponseEntity(e.getErrorCode());
+        return CustomMemberErrorResponse.toResponseEntity(e.getErrorCode());
     }
 }

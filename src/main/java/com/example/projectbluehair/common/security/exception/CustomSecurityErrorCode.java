@@ -17,7 +17,6 @@ public enum CustomSecurityErrorCode {
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     REFRESH_TOKEN_NOT_FOUND(NOT_FOUND, "로그아웃 된 사용자입니다");
 
-
     private final HttpStatus httpStatus;
     private final String detail;
 }

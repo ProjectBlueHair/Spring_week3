@@ -8,7 +8,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @Getter
 @AllArgsConstructor
-public enum MemberErrorCode {
+public enum CustomMemberErrorCode {
     /* 400 BAD_REQUEST : 잘못된 요청 */
     INVALID_MEMBERNAME(BAD_REQUEST, "유효하지 않은 유저이름입니다."),
     INVALID_PASSWORD(BAD_REQUEST, "유효하지 않은 비밀번호입니다."),
