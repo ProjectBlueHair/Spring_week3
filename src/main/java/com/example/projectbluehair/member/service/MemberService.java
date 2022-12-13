@@ -48,7 +48,7 @@ public class MemberService {
                 .ifPresent(m-> {
                     throw new CustomMemberException(CustomMemberErrorCode.DUPLICATE_MEMBERNAME);
                 });
-        
+
         // 2. Password 확인
         // 2-1. Password 형식 확인
         if(!validator.isValidPassword(password)){
