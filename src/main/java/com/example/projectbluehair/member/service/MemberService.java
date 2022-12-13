@@ -6,6 +6,7 @@ import com.example.projectbluehair.member.dto.LoginResponseDto;
 import com.example.projectbluehair.member.dto.SignUpDto;
 import com.example.projectbluehair.member.dto.SignUpResponseDto;
 import com.example.projectbluehair.member.entity.Member;
+import com.example.projectbluehair.member.entity.MemberMapper;
 import com.example.projectbluehair.member.entity.MemberRole;
 import com.example.projectbluehair.member.exception.CustomMemberException;
 import com.example.projectbluehair.member.exception.CustomMemberErrorCode;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberMapper memberMapper;
+
     private final JwtUtil jwtUtil;
     private final Validator validator;
 
@@ -66,8 +69,8 @@ public class MemberService {
             role = MemberRole.ADMIN;
         }
 
-        // 4. Entity Member 생성 및 DB 저장
-        Member member = new Member(memberName, password, role);
+        // 4. Entity Member 생성 및 DB 저장 (Mapper 사용)
+        Member member = memberMapper.toEntity(memberName, password, role);
         memberRepository.save(member);
 
         // 5. SignUpResponseDto 반환
@@ -89,8 +92,8 @@ public class MemberService {
             throw new CustomMemberException(CustomMemberErrorCode.INCORRECT_PASSWORD);
         }
 
-        // 3. Token
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getMemberName(), member.getRole()));
+        // 3. Token 발급
+        response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, jwtUtil.createToken(member.getMemberName(), member.getRole()));
 
         return new LoginResponseDto(member);
     }
