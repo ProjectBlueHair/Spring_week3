@@ -4,8 +4,6 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-
 @Getter
 @Entity
 @NoArgsConstructor
@@ -22,9 +20,15 @@ public class Member extends TimeStamp{
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private UserRole role;
+    private MemberRole role;
 
-//    @OneToMany(mappedBy = "member")
+    public Member(String memberName, String password, MemberRole role) {
+        this.memberName = memberName;
+        this.password = password;
+        this.role = role;
+    }
+
+    //    @OneToMany(mappedBy = "member")
 //    private List<Forum> forumList = new ArrayList<>();
 
 }
