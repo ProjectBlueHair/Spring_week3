@@ -1,6 +1,7 @@
 package com.example.projectbluehair.forum.entity;
 
 import com.example.projectbluehair.member.entity.Member;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ForumLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +26,10 @@ public class ForumLike {
     @ManyToOne
     @JoinColumn(name = "FORUM_ID", nullable = false)
     private Forum forum;
+
+
+    public ForumLike(Forum forum, Member member) {
+        this.member = member;
+        this.forum = forum;
+    }
 }
