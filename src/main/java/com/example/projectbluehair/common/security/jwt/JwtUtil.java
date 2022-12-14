@@ -115,7 +115,7 @@ public class JwtUtil {
 
     // 인증 객체 생성
     public Authentication createAuthentication(String memberName) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(memberName);
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(memberName); // 이름을 통해 사용자 조회
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); //userDetail 및 권한 넣어 생성
     }
 }
