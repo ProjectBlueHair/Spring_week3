@@ -35,7 +35,7 @@ public class JwtUtil {
     // 토큰 생성 시 앞에 붙는 식별자
     private static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료 시간
-    private static final long TOKEN_TIME = 60 * 60 * 1000L;
+    private static final long TOKEN_TIME = 60 * 1000L;
 
     // JWT SecretKey 불러오기
     @Value("${jwt.secret.key}")
