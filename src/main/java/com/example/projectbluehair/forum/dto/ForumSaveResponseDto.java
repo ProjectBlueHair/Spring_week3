@@ -30,4 +30,5 @@ public class ForumSaveResponseDto {
         this.liekCount = 0; //최초 게시글 좋아요 0
         this.commentList = forum.getCommentList(); //<<수정포인트1>>
     }
+
 }
