@@ -1,13 +1,9 @@
 package com.example.projectbluehair.member.entity;
 
-import javax.persistence.*;
-
-import com.example.projectbluehair.comment.entity.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
 @Getter
 @Entity
