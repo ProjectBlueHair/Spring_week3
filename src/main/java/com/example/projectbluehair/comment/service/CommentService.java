@@ -2,6 +2,7 @@ package com.example.projectbluehair.comment.service;
 
 import com.example.projectbluehair.comment.dto.CommentDto;
 import com.example.projectbluehair.comment.dto.CommentSaveResponseDto;
+import com.example.projectbluehair.comment.dto.CommentUpdateResponseDto;
 import com.example.projectbluehair.comment.entity.Comment;
 import com.example.projectbluehair.comment.repository.CommentRepository;
 import com.example.projectbluehair.forum.entity.Forum;
@@ -10,6 +11,7 @@ import com.example.projectbluehair.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
