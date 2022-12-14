@@ -1,4 +1,4 @@
-package com.example.projectbluehair.member.exception;
+package com.example.projectbluehair.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -8,11 +8,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @Slf4j
 @RestControllerAdvice
-public class CustomMemberExceptionHandler extends ResponseEntityExceptionHandler {
+public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { CustomMemberException.class })
-    protected ResponseEntity<CustomMemberErrorResponse> handleCustomException(CustomMemberException e) {
+    @ExceptionHandler(value = { CustomException.class })
+    protected ResponseEntity<CommonErrorResponse> handleCustomException(CustomException e) {
         log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
-        return CustomMemberErrorResponse.toResponseEntity(e.getErrorCode());
+        return CommonErrorResponse.toResponseEntity(e.getErrorCode());
     }
 }

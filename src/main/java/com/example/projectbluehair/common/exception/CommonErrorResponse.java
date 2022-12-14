@@ -1,4 +1,4 @@
-package com.example.projectbluehair.member.exception;
+package com.example.projectbluehair.common.exception;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,17 +8,17 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class CustomMemberErrorResponse {
+public class CommonErrorResponse {
     private final LocalDateTime timestamp = LocalDateTime.now();
     private final int status;
     private final String error;
     private final String code;
     private final String message;
 
-    public static ResponseEntity<CustomMemberErrorResponse> toResponseEntity(CustomMemberErrorCode errorCode) {
+    public static ResponseEntity<CommonErrorResponse> toResponseEntity(CommonErrorCode errorCode) {
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
-                .body(CustomMemberErrorResponse.builder()
+                .body(CommonErrorResponse.builder()
                         .status(errorCode.getHttpStatus().value())
                         .error(errorCode.getHttpStatus().name())
                         .code(errorCode.name())
