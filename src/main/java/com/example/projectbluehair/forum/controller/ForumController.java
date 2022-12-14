@@ -2,10 +2,7 @@ package com.example.projectbluehair.forum.controller;
 
 import com.example.projectbluehair.common.response.ResponseDto;
 import com.example.projectbluehair.common.response.SuccessResponse;
-import com.example.projectbluehair.forum.dto.ForumResponseDto;
-import com.example.projectbluehair.forum.dto.ForumSaveRequestDto;
-import com.example.projectbluehair.forum.dto.ForumSaveResponseDto;
-import com.example.projectbluehair.forum.dto.ForumUpdateRequestDto;
+import com.example.projectbluehair.forum.dto.*;
 import com.example.projectbluehair.forum.service.ForumService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -25,9 +24,9 @@ public class ForumController {
 
 
     @GetMapping("") //1. 전체게시글 조회///////////
-    public ResponseEntity<ResponseDto> getForumList() {
-        return successResponse.respondDataOnly(HttpStatus.OK,null); //data만 전송
-        //return ResponseEntity.status(HttpStatus.OK).body("전체 조회 요청옴1");
+    public ResponseEntity<ResponseDto> getForumList(@AuthenticationPrincipal UserDetails userDetails) {
+        ForumListResponseDto data = forumService.getForumList(userDetails.getUsername());
+        return successResponse.respondDataOnly(HttpStatus.OK,data); //data만 전송
     }
 
     @PostMapping("") //2. 게시글 작성 - 검토필요>>>>>

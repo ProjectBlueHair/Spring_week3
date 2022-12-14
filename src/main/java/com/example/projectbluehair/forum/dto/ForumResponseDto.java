@@ -1,5 +1,6 @@
 package com.example.projectbluehair.forum.dto;
 
+import com.example.projectbluehair.comment.dto.CommentSaveResponseDto;
 import com.example.projectbluehair.comment.entity.Comment;
 import com.example.projectbluehair.forum.entity.Forum;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class ForumResponseDto {
         this.content = forum.getContent();
         this.createdAt = forum.getCreatedAt();
         this.liekCount = 0L; //최초 게시글 좋아요 0
-        this.commentList = forum.getCommentList(); //<<수정포인트1>>
+        //this.commentList = forum.getCommentList(); //<<수정포인트1>>
     }
 
 
@@ -41,5 +42,9 @@ public class ForumResponseDto {
         this.liekCount = likeCount;
         this.liked = liked;
         this.commentList = forum.getCommentList();
+//        for(int i = 0; i< forum.getCommentList().size(); i++){
+//            commentList.add(new ForumCommentDtoTemp(forum.getCommentList().get(i)));
+//        }
     }
+
 }
