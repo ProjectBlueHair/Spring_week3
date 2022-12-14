@@ -29,7 +29,7 @@ public class ForumResponseDto {
         this.content = forum.getContent();
         this.createdAt = forum.getCreatedAt();
         this.liekCount = 0L; //최초 게시글 좋아요 0
-        //this.commentList = forum.getCommentList(); //<<수정포인트1>>
+        this.commentList = forum.getCommentList(); //<<수정포인트1>>
     }
 
 
