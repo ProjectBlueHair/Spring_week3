@@ -17,7 +17,7 @@ import java.io.OutputStream;
 @Component
 @RequiredArgsConstructor
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    ResponseDto responseDto = new ResponseDto(HttpStatus.UNAUTHORIZED, "토큰 권한 오류", null);
+    ResponseDto responseDto = new ResponseDto(HttpStatus.UNAUTHORIZED, "토큰 인증 오류", null);
 
     @Override
     public void commence(HttpServletRequest request,
