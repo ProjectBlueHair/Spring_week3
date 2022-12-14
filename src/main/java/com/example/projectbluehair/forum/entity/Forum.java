@@ -34,9 +34,8 @@ public class Forum extends Timestamped {
     private Member member;
 
     //게시글 --N:1--> 게시글좋아요
-//    @OneToMany
-//    @JoinColumn(name = "FORUM_ID")
-//    private List<ForumLike> forumLikeList = new ArrayList<>();
+    @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL)
+    private List<ForumLike> forumLikeList = new ArrayList<>();
 
     //게시글 --N:1--> 댓글
     @OneToMany(mappedBy = "forum")

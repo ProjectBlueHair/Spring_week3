@@ -48,7 +48,7 @@ public class ForumController {
         return successResponse.respondDataOnly(HttpStatus.OK, data); //data만 전송
     }
 
-    @DeleteMapping("/{forumId}") //5. 게시글 탈퇴 - 검토필요>>>>>
+    @DeleteMapping("/{forumId}") //5. 게시글 삭제 - 검토필요>>>>>
     public ResponseEntity<ResponseDto> deleteForum(@PathVariable Long forumId, @AuthenticationPrincipal UserDetails userDetails) {
         forumService.deleteForum(forumId, userDetails.getUsername());
         return successResponse.respond(HttpStatus.OK, "게시글을 삭제하였습니다.", null); //data만 전송
@@ -60,9 +60,9 @@ public class ForumController {
         return successResponse.respond(HttpStatus.OK, "게시글 좋아요가 추가되었습니다.", null); //data만 전송
     }
 
-    @DeleteMapping("/like/{forumId}") //7. 게시글 좋아요 삭제////////////
+    @DeleteMapping("/like/{forumId}") //7. 게시글 좋아요 삭제 - 검토필요>>>>>
     public ResponseEntity<ResponseDto> deleteForumLik(@PathVariable Long forumId, @AuthenticationPrincipal UserDetails userDetails) {
-        //forumService.deleteForumLike(forumId, userDetails.getUsername());
+        forumService.deleteForumLike(forumId, userDetails.getUsername());
         return successResponse.respond(HttpStatus.OK, "게시글 좋아요가 취소하였습니다.", null); //data만 전송
     }
 }

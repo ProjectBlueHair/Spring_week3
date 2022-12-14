@@ -1,0 +1,62 @@
+[
+  {
+    "memberName": "user1",
+    "password": "111",
+    "admin": "false",
+    "adminToken": ""
+  },
+  {
+    "memberName": "user2",
+    "password": "222",
+    "admin": "false",
+    "adminToken": ""
+  },
+  {
+    "memberName": "user3",
+    "password": "333",
+    "admin": "false",
+    "adminToken": ""
+  },
+  {
+    "memberName": "user4",
+    "password": "444",
+    "admin": "false",
+    "adminToken": ""
+  },
+  {
+    "memberName": "user5",
+    "password": "555",
+    "admin": "false",
+    "adminToken": ""
+  },
+  {
+    "memberName": "user6",
+    "password": "666",
+    "admin": "false",
+    "adminToken": ""
+  },
+  {
+    "memberName": "user7",
+    "password": "777",
+    "admin": "false",
+    "adminToken": ""
+  },
+  {
+    "memberName": "user8",
+    "password": "888",
+    "admin": "false",
+    "adminToken": ""
+  },
+  {
+    "memberName": "user9",
+    "password": "999",
+    "admin": "false",
+    "adminToken": ""
+  },
+  {
+    "memberName": "user10",
+    "password": "101010",
+    "admin": "false",
+    "adminToken": ""
+  }
+]
