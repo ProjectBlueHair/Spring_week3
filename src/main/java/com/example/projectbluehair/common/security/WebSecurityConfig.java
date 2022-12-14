@@ -54,7 +54,7 @@ public class WebSecurityConfig {
                 antMatchers("/signup").permitAll().
                 antMatchers("/login").permitAll().
                 antMatchers("/forum").permitAll().
-                antMatchers("/forum/{path:[0-9]}").permitAll().
+                antMatchers("/forum/{path:[0-9]*}").permitAll().
                 // .anyRequest().authenticated() : 나머지 모든 Request에 대해, 인증 필요.
                 anyRequest().authenticated().
                 // JWT Filter 등록
