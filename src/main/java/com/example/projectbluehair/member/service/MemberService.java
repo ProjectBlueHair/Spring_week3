@@ -1,11 +1,11 @@
 package com.example.projectbluehair.member.service;
 
 import com.example.projectbluehair.common.security.jwt.JwtUtil;
+import com.example.projectbluehair.member.dto.SignUpDto;
+import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.dto.LoginDto;
 import com.example.projectbluehair.member.dto.LoginResponseDto;
-import com.example.projectbluehair.member.dto.SignUpDto;
 import com.example.projectbluehair.member.dto.SignUpResponseDto;
-import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.entity.MemberMapper;
 import com.example.projectbluehair.member.entity.MemberRole;
 import com.example.projectbluehair.member.exception.CustomMemberException;

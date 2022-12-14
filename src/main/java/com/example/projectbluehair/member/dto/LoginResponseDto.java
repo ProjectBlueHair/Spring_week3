@@ -1,7 +1,7 @@
 package com.example.projectbluehair.member.dto;
 
-import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.entity.MemberRole;
+import com.example.projectbluehair.member.entity.Member;
 import lombok.Getter;
 
 @Getter
