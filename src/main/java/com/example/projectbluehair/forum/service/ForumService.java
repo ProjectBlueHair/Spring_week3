@@ -178,10 +178,6 @@ public class ForumService {
         );
 
         //3. 게시글 좋아요 조회
-        //forumLikeRepository.deleteByForum_ForumIdAndMember_Id(forumId, member.getId());
-//        Long forumLikeId = forumLikeRepository.findByForum_ForumIdAndMember_Id(forumId, member.getId()).orElseThrow(
-//                () -> new CustomForumException(CustomForumErrorCode.FORUM_LIKE_NOT_FOUND)
-//        );
         ForumLike forumLike = forumLikeRepository.findByForum_ForumIdAndMember_Id(forumId,member.getId()).orElseThrow(
                 () -> new CustomForumException(CustomForumErrorCode.FORUM_LIKE_NOT_FOUND)
         );
