@@ -6,7 +6,7 @@ import com.example.projectbluehair.comment.dto.CommentUpdateResponseDto;
 import com.example.projectbluehair.comment.entity.Comment;
 import com.example.projectbluehair.comment.repository.CommentRepository;
 import com.example.projectbluehair.forum.entity.Forum;
-import com.example.projectbluehair.forum.entity.ForumRepository;
+import com.example.projectbluehair.forum.repository.ForumRepository;
 import com.example.projectbluehair.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
