@@ -2,14 +2,16 @@ package com.example.projectbluehair.comment.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-public class CommentDto {
+@NoArgsConstructor
+public class CommentSaveDto {
     private String content;
     private Long parentCommentId;
 
     @Builder
-    public CommentDto(String content, Long parentCommentId) {
+    public CommentSaveDto(String content, Long parentCommentId) {
         this.content = content;
         this.parentCommentId = parentCommentId;
     }
