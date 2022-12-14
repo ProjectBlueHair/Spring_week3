@@ -4,11 +4,6 @@ import com.example.projectbluehair.comment.dto.CommentDto;
 import com.example.projectbluehair.forum.entity.ForumLike;
 import com.example.projectbluehair.member.entity.Member;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.xml.stream.events.Comment;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,17 +1,18 @@
 package com.example.projectbluehair.comment.entity;
 
-import com.example.projectbluehair.comment.dto.CommentDto;
 import com.example.projectbluehair.forum.entity.Forum;
 import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.entity.TimeStamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Setter
 @Getter
 @NoArgsConstructor
 public class Comment extends TimeStamp {
@@ -43,14 +44,29 @@ public class Comment extends TimeStamp {
     @JoinColumn(name = "PARENT_COMMENT_ID")
     private Comment parentCommentId;
 
-    @OneToMany(mappedBy = "parentCommentId") //부모입장
+    @OneToMany(mappedBy = "parentCommentId", cascade = CascadeType.ALL) //부모입장
     private List<Comment> commentList = new ArrayList<>();
 
+    //댓글의 댓글.
+    public Comment(String content, Comment comment2, Member member, Forum forum) {
+        this.content = content;
+        this.member = member;
+        this.forum = forum;
+        this.parentCommentId = comment2;
+    }
+
+    //댓글
     public Comment(String content, Member member, Forum forum) {
         this.content = content;
         this.member = member;
         this.forum = forum;
     }
+
+    public void update(String content) {
+        this.content = content;
+    }
+
+
 
 
 

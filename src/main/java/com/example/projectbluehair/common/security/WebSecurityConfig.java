@@ -2,8 +2,6 @@ package com.example.projectbluehair.common.security;
 
 import com.example.projectbluehair.common.security.exception.CustomAccessDeniedHandler;
 import com.example.projectbluehair.common.security.exception.CustomAuthenticationEntryPoint;
-import com.example.projectbluehair.common.security.exception.CustomSecurityErrorCode;
-import com.example.projectbluehair.common.security.exception.CustomSecurityException;
 import com.example.projectbluehair.common.security.jwt.JwtAuthFilter;
 import com.example.projectbluehair.common.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -56,6 +53,8 @@ public class WebSecurityConfig {
                 // SignUp, Login api는 인증 없이도 승인
                 antMatchers("/signup").permitAll().
                 antMatchers("/login").permitAll().
+                antMatchers("/forum").permitAll().
+                antMatchers("/forum/{path:[0-9]*}").permitAll().
                 // .anyRequest().authenticated() : 나머지 모든 Request에 대해, 인증 필요.
                 anyRequest().authenticated().
                 // JWT Filter 등록
