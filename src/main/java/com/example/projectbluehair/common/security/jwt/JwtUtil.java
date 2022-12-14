@@ -54,7 +54,7 @@ public class JwtUtil {
 
     // header 토큰을 가져오기
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_ACCESS); // Authorization의 value를 가지고옴
+        String bearerToken = request.getHeader(AUTHORIZATION_ACCESS); // AccessToken의 value를 가지고옴
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) { // Bearer 값 있는지 확인
             return bearerToken.substring(7); // 확인되면 Bearer 빼고 반환
         }
@@ -115,7 +115,7 @@ public class JwtUtil {
 
     // 인증 객체 생성
     public Authentication createAuthentication(String memberName) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(memberName);
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(memberName); // 이름을 통해 사용자 조회
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); //userDetail 및 권한 넣어 생성
     }
 }
