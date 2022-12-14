@@ -12,9 +12,12 @@ import com.example.projectbluehair.forum.repository.ForumLikeRepository;
 import com.example.projectbluehair.forum.repository.ForumRepository;
 import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.repository.MemberRepository;
+import com.example.projectbluehair.member.service.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -126,7 +129,12 @@ public class ForumService {
         }
 
         //4. 게시글 삭제 - 댓글과 삭제 검토 필요>>>>>
-        forumRepository.deleteById(forumId);
+        //4-1. 댓글 좋아요 삭제
+        //4-2. 댓글 삭제
+        //4-3. 게시글 좋아요 삭제
+        //forumLikeRepository.deleteByForum_ForumIdAndMember_Id(forum.getForumId(), member.getId());
+        //4-4. 게시글 삭제
+        forumRepository.deleteById(forum.getForumId());
     }
 
 
@@ -158,24 +166,27 @@ public class ForumService {
     }
 
     //(진행중)7. 게시글 좋아요 삭제
-//    public void deleteForumLike(Long forumId, String memberName) {
-//        //1. 게시글 조회
-//        Forum forum = forumRepository.findById(forumId).orElseThrow(
-//                ()-> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
-//        );
-//
-//        //2. 사용자 조회
-//        Member member = memberRepository.findByMemberName(memberName).orElseThrow(
-//                () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
-//        );
-//
-//        //3. 게시글 좋아요 조회
-//        //forumLikeRepository.deleteByForum_ForumIdAndMember_Id(forumId, member.getId());
-//        Long forumLikeId = forumLikeRepository.findByForum_ForumIdAndMember_Id(forumId, member.getId())l.orElseThrow(
+    public void deleteForumLike(Long forumId, String memberName) {
+        //1. 게시글 조회
+        Forum forum = forumRepository.findById(forumId).orElseThrow(
+                ()-> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+        );
+
+        //2. 사용자 조회
+        Member member = memberRepository.findByMemberName(memberName).orElseThrow(
+                () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+        );
+
+        //3. 게시글 좋아요 조회
+        //forumLikeRepository.deleteByForum_ForumIdAndMember_Id(forumId, member.getId());
+//        Long forumLikeId = forumLikeRepository.findByForum_ForumIdAndMember_Id(forumId, member.getId()).orElseThrow(
 //                () -> new CustomForumException(CustomForumErrorCode.FORUM_LIKE_NOT_FOUND)
 //        );
-//
-//        //4. 좋아요 삭제
-//        forumLikeRepository.deleteById(forumLikeId);
-//    }
+        ForumLike forumLike = forumLikeRepository.findByForum_ForumIdAndMember_Id(forumId,member.getId()).orElseThrow(
+                () -> new CustomForumException(CustomForumErrorCode.FORUM_LIKE_NOT_FOUND)
+        );
+
+        //4. 좋아요 삭제
+        forumLikeRepository.delete(forumLike);
+    }
 }
