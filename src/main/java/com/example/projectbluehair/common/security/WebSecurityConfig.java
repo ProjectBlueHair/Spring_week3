@@ -1,5 +1,9 @@
 package com.example.projectbluehair.common.security;
 
+import com.example.projectbluehair.common.security.exception.CustomAccessDeniedHandler;
+import com.example.projectbluehair.common.security.exception.CustomAuthenticationEntryPoint;
+import com.example.projectbluehair.common.security.exception.CustomSecurityErrorCode;
+import com.example.projectbluehair.common.security.exception.CustomSecurityException;
 import com.example.projectbluehair.common.security.jwt.JwtAuthFilter;
 import com.example.projectbluehair.common.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -20,6 +25,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     @Bean // 비밀번호 암호화
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -53,6 +60,11 @@ public class WebSecurityConfig {
                 anyRequest().authenticated().
                 // JWT Filter 등록
                 and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
+        // 401 Error, 인증 실패
+        http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
+        // 403 Error, 권한 오류
+        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
 
         return http.build();
     }
