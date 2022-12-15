@@ -29,29 +29,38 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         System.out.println("JWTAuthFilter Called");
         // Login, SignUp 기능의 경우 해당 Filter 건너뜀.
         String uri = request.getRequestURI();
-        if (uri.equals("/login") || uri.equals("/signup") || uri.equals("/forum")){
+
+//        // fix. forum 예외처리
+//        if (uri.equals("/login") || uri.equals("/signup") || uri.equals("/forum")){
+//            System.out.println("JWT Filter Skipped");
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+
+        if (uri.equals("/login") || uri.equals("/signup")){
             System.out.println("JWT Filter Skipped");
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Forum 하나를 확인할 때 Filter 건너뛰기 위함
-        // /forum/ 뒤에 오는 문자열이 숫자로만 구성되어있는지(forum id) 아닌지 판단
-        if (uri.contains("/forum")){
-            String[] strarr = uri.split("/");
-            char[] chararr = strarr[strarr.length - 1].toCharArray();
-            boolean flag = false;
-            for (int i = 0; i < chararr.length; i++) {
-                if (chararr[i] < '0' || chararr[i] > '9'){
-                    flag = true;
-                }
-            }
-            if (!flag){
-                System.out.println("JWT Filter Skipped");
-                filterChain.doFilter(request, response);
-                return;
-            }
-        }
+//        // fix. 게시글 단일 조회 예외처리
+//        // Forum 하나를 확인할 때 Filter 건너뛰기 위함
+//        // /forum/ 뒤에 오는 문자열이 숫자로만 구성되어있는지(forum id) 아닌지 판단
+//        if (uri.contains("/forum")){
+//            String[] strarr = uri.split("/");
+//            char[] chararr = strarr[strarr.length - 1].toCharArray();
+//            boolean flag = false;
+//            for (int i = 0; i < chararr.length; i++) {
+//                if (chararr[i] < '0' || chararr[i] > '9'){
+//                    flag = true;
+//                }
+//            }
+//            if (!flag){
+//                System.out.println("JWT Filter Skipped");
+//                filterChain.doFilter(request, response);
+//                return;
+//            }
+//        }
 
         // 1. Request에서 토큰 추출
         String token = jwtUtil.resolveToken(request);
