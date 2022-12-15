@@ -1,7 +1,6 @@
 package com.example.projectbluehair;
 
 import com.example.projectbluehair.comment.dto.CommentSaveRequestDto;
-import com.example.projectbluehair.comment.dto.CommentSaveResponseDto;
 import com.example.projectbluehair.comment.entity.Comment;
 import com.example.projectbluehair.comment.repository.CommentRepository;
 import com.example.projectbluehair.forum.dto.ForumSaveRequestDto;
@@ -9,7 +8,6 @@ import com.example.projectbluehair.forum.entity.Forum;
 import com.example.projectbluehair.forum.exception.CustomForumErrorCode;
 import com.example.projectbluehair.forum.exception.CustomForumException;
 import com.example.projectbluehair.forum.repository.ForumRepository;
-import com.example.projectbluehair.member.dto.SignUpDto;
 import com.example.projectbluehair.member.dto.SignUpRequestDto;
 import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.entity.MemberMapper;
@@ -26,9 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @EnableJpaAuditing
 @SpringBootApplication
@@ -39,14 +35,18 @@ public class ProjectBlueHairApplication {
 
     @Resource
     private MemberRepository memberRepository;
+
     @Resource
     private MemberMapper memberMapper;
+
     @Resource
     private PasswordEncoder passwordEncoder;
 
     @Resource
     private ForumRepository forumRepository;
 
+    @Resource
+    private CommentRepository commentRepository;
 
     @Bean
     public ApplicationRunner applicationRunner() {
@@ -55,6 +55,7 @@ public class ProjectBlueHairApplication {
             //0. json파일 준비
             InputStream jsonMember = this.getClass().getClassLoader().getResourceAsStream("json/MemberData.json");
             InputStream jsonForum = this.getClass().getClassLoader().getResourceAsStream("json/ForumData.json");
+            InputStream jsonComment = this.getClass().getClassLoader().getResourceAsStream("json/CommentData.json");
 
             //1. 회원저장 >>>> 회원정보 10개 저장, user1은 비밀번호 111, user2는 비밀번호 222
             List<SignUpRequestDto> signUpRequestDtoList = new ObjectMapper().readValue(jsonMember, new TypeReference<>() {

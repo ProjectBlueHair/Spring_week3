@@ -29,7 +29,6 @@ import java.util.Date;
 public class JwtUtil {
     // Header의 Key 값
     public static final String AUTHORIZATION_ACCESS = "AccessToken";
-    public static final String AUTHORIZATION_REFRESH = "RefreshToken";
     // 사용자 권한 값의 Key
     public static final String AUTHORIZATION_KEY = "auth";
     private final UserDetailsServiceImpl userDetailsService;
