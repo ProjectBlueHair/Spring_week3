@@ -23,31 +23,44 @@ public class ForumService {
     private final ForumRepository forumRepository;
     private final ForumLikeRepository forumLikeRepository;
 
-    //1. 전체게시글 조회
+    //1. 전체게시글 조회 - 게시글, 댓글, 대댓글, 좋아요개수, 좋아요 이력 모두 포함
     @Transactional(readOnly = true)
     public ForumListResponseDto getForumList(String memberName) {
+        //1. 게시글 전체 조회 - 생성일자 내림차순
         List<Forum> forumList = forumRepository.findAllByOrderByCreatedAtDesc();
 
+        //2. 게시글 리스트 준비
         ForumListResponseDto forumListResDto = new ForumListResponseDto();
 
+        //3. 좋아요 작업
         for (Forum forum : forumList) {
-            //2. 좋아요 개수 조회
+            //3-1. 게시글 좋아요 개수 조회
             Long likeCount = forumLikeRepository.countByForum_ForumId(forum.getForumId());
 
+            //3-2. 게시글 좋아요 이력 체크
             boolean liked = false;
             Member member = new Member();
+<<<<<<< Updated upstream
             if (memberName.equals("")) {
                 //3. 게시글 좋아요 이력 조회 - 사용자 조회 => 게시글 좋아요 유무 조회
                 //MemberName에 해당하는 유저 없을 경우 404와 에러메세지 반환
+=======
+            if (memberName != "") {
+                //3-2-1. 사용자 조회
+>>>>>>> Stashed changes
                 member = memberRepository.findByMemberName(memberName).orElseThrow(
                         () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
                 );
 
+                //3-2-2. 게시글 좋아요 이력 조회
                 liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forum.getForumId(), member.getId());
             }
+
+            //4. 댓글 및 대댓글 추가
             forumListResDto.addForum(new ForumResponseDto(forum, likeCount, liked, member.getId()));
         }
 
+        //5. 결과 반환
         return forumListResDto;
     }
 
@@ -91,8 +104,6 @@ public class ForumService {
 
             liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forumId, member.getId());
         }
-        //System.out.println("좋아요 존재 : " + liked);
-        //System.out.println("3. 좋아요 개수 ForumService.getForum : " + likeCount);
 
         //4. 게시글 반환 Entity -> Dto
         return new ForumResponseDto(forum, likeCount, liked, member.getId());
@@ -120,7 +131,7 @@ public class ForumService {
         forum.setTitle(forumUpdateReqDto.getTitle());
         forum.setContent(forumUpdateReqDto.getContent());
 
-        /** 구현 방법 논의 필요 - >>>>>
+        /** 구현 방법 논의 필요 ->>>>> 3. 게시글 조회 기능 활용 VS 별도 결과 반환 구현
          //5. 좋아요 개수 조회
          Long likeCount = forumLikeRepository.countByForum_ForumId(forumId);
 
@@ -134,6 +145,7 @@ public class ForumService {
          //7. 수정 게시글 반환 Entity -> Dto
          //return new ForumResponseDto(forum, likeCount, liked);
          **/
+
         return getForum(forumId, memberName);
     }
 

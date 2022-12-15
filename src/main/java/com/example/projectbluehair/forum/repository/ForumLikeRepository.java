@@ -32,6 +32,28 @@ public interface ForumLikeRepository extends JpaRepository<ForumLike, Long> {
      */
 
     boolean existsByForum_ForumIdAndMember_Id(Long forumId, Long id);
+    /**
+     1. 게시글 좋아요 이력 조회 sql
+
+     2. JPA SQL
+     select
+     forumlike0_.forum_like_id as col_0_0_
+     from
+     forum_like forumlike0_
+     left outer join
+     forum forum1_
+     on forumlike0_.forum_id=forum1_.forum_id
+     left outer join
+     member member2_
+     on forumlike0_.member_id=member2_.id
+     where
+     forum1_.forum_id=?
+     and member2_.id=? limit ?
+
+
+     */
+
+
 
     Optional<ForumLike> findByForum_ForumIdAndMember_Id(Long forumId, Long id);
      //원리 + sql정리하자[[[[[[
