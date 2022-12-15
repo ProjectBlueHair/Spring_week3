@@ -25,6 +25,12 @@ public class Member extends TimeStamp{
     private String password;
 
     @Column(nullable = false)
+    private String accessToken = "";
+
+    @Column(nullable = false)
+    private String refreshToken = "";
+
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
 
@@ -32,6 +38,11 @@ public class Member extends TimeStamp{
         this.memberName = memberName;
         this.password = password;
         this.role = role;
+    }
+
+    public void updateToken(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 
     //    @OneToMany(mappedBy = "member")

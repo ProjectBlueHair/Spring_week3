@@ -92,9 +92,16 @@ public class MemberService {
             throw new CustomMemberException(CustomMemberErrorCode.INCORRECT_PASSWORD);
         }
 
-        // 3. Token 발급
-        response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, jwtUtil.createAccessToken(member.getMemberName(), member.getRole()));
-        response.addHeader(JwtUtil.AUTHORIZATION_REFRESH, jwtUtil.createRefreshToken());
+        // 3. Token 생성
+        String accessToken = jwtUtil.createAccessToken(member.getMemberName(), member.getRole());
+        String refreshToken = jwtUtil.createRefreshToken();
+
+        // 4. Token 발급
+        response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, accessToken);
+        response.addHeader(JwtUtil.AUTHORIZATION_REFRESH, refreshToken);
+        
+        // 5. 발급된 Token DB에 저장
+        member.updateToken(accessToken, refreshToken);
 
         return new LoginResponseDto(member);
     }
