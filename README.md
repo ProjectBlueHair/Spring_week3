@@ -7,7 +7,7 @@
 > 
 
 ### 🔥 Contributers
-#### https://github.com/1Tsw0rd
-#### https://github.com/JongBeomPark78
-#### https://github.com/minokim1080
-#### https://github.com/JeekLee
+- https://github.com/1Tsw0rd
+- https://github.com/JongBeomPark78
+- https://github.com/minokim1080
+- https://github.com/JeekLee
