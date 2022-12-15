@@ -3,10 +3,10 @@ package com.example.projectbluehair;
 import com.example.projectbluehair.comment.dto.CommentSaveRequestDto;
 import com.example.projectbluehair.comment.entity.Comment;
 import com.example.projectbluehair.comment.repository.CommentRepository;
+import com.example.projectbluehair.common.exception.CommonErrorCode;
+import com.example.projectbluehair.common.exception.CustomException;
 import com.example.projectbluehair.forum.dto.ForumSaveRequestDto;
 import com.example.projectbluehair.forum.entity.Forum;
-import com.example.projectbluehair.forum.exception.CustomForumErrorCode;
-import com.example.projectbluehair.forum.exception.CustomForumException;
 import com.example.projectbluehair.forum.repository.ForumRepository;
 import com.example.projectbluehair.member.dto.SignUpRequestDto;
 import com.example.projectbluehair.member.entity.Member;
@@ -78,7 +78,7 @@ public class ProjectBlueHairApplication {
                     i = 1L;
                 }
                 Member member = memberRepository.findById(i).orElseThrow( //에러나진 않겠지만
-                        () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                        () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
                 );
 
                 Forum forum = new Forum(forumSaveRequestDto, member);
@@ -103,7 +103,7 @@ public class ProjectBlueHairApplication {
                     j = 1L;
                 }
                 Member member = memberRepository.findById(j).orElseThrow( //에러나진 않겠지만
-                        () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                        () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
                 );
 
                 Comment comment = new Comment(content, member, forum);
