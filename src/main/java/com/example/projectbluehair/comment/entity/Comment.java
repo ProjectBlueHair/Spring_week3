@@ -3,6 +3,8 @@ package com.example.projectbluehair.comment.entity;
 import com.example.projectbluehair.forum.entity.Forum;
 import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.entity.TimeStamp;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +33,7 @@ public class Comment extends TimeStamp {
 
     //댓글 --N:1--> 게시글
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "FORUM_ID", nullable = false)
     private Forum forum;
 
@@ -41,10 +44,12 @@ public class Comment extends TimeStamp {
 
     //자기참조 : 부모댓글 <--1:N--> 자식댓글
     @ManyToOne  //자식입장(연관관계 주인)
+    @JsonBackReference
     @JoinColumn(name = "PARENT_COMMENT_ID")
     private Comment parentCommentId;
 
     @OneToMany(mappedBy = "parentCommentId", cascade = CascadeType.ALL) //부모입장
+    @JsonManagedReference
     private List<Comment> commentList = new ArrayList<>();
 
     //댓글의 댓글.

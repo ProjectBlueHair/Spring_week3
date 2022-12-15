@@ -1,4 +1,4 @@
-package com.example.projectbluehair.comment.dto;
+package com.example.projectbluehair.forum.dto;
 
 import com.example.projectbluehair.comment.entity.Comment;
 import lombok.Getter;
@@ -8,14 +8,15 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class CommentSaveResponseDto extends Comment {
+public class ForumCommentDtoTemp {
     private String content;
     private LocalDateTime createdAt;
-    private long memberId;
+    private String memberName;
 
-    public CommentSaveResponseDto(Comment comment) {
+
+    public ForumCommentDtoTemp(Comment comment) {
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
-        this.memberId = comment.getMember().getId();
+        this.memberName = comment.getMember().getMemberName();
     }
 }

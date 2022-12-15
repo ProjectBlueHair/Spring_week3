@@ -4,6 +4,7 @@ import com.example.projectbluehair.comment.entity.Comment;
 import com.example.projectbluehair.forum.dto.ForumSaveRequestDto;
 import com.example.projectbluehair.forum.dto.ForumUpdateRequestDto;
 import com.example.projectbluehair.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,6 +40,7 @@ public class Forum extends Timestamped {
 
     //게시글 --N:1--> 댓글
     @OneToMany(mappedBy = "forum")
+    @JsonManagedReference
     private List<Comment> commentList = new ArrayList<>();
 
 
