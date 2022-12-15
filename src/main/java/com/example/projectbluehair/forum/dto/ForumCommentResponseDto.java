@@ -43,11 +43,12 @@ public class ForumCommentResponseDto {
                // System.out.println("222222test : memberId : " + memberId);
 
 
-//                for(int x = 0; x < comment.getCommentList().get(i).getCommentLikeList().size(); i++){
-//                    if (comment.getCommentList().get(i).getCommentLikeList().get(x).getMember().getId().equals(memberId)){
-//                        childCommentLiked = true;
-//                    }
-//                }
+                for(int x = 0; x < comment.getCommentList().get(i).getCommentLikeList().size(); i++){
+                    if (comment.getCommentList().get(i).getCommentLikeList().get(x).getMember().getId().equals(memberId)){
+                        childCommentLiked = true;
+                        break;
+                    }
+                }
 
                 //3. 하위 댓글 작업 진행
                 childCommentList.add(new ForumCommentResponseDto(comment.getCommentList().get(i), childCommentLikeCount, childCommentLiked, memberId));
