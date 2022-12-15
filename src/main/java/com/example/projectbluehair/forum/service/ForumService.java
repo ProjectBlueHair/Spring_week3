@@ -40,14 +40,10 @@ public class ForumService {
             //3-2. 게시글 좋아요 이력 체크
             boolean liked = false;
             Member member = new Member();
-<<<<<<< Updated upstream
+
             if (memberName.equals("")) {
                 //3. 게시글 좋아요 이력 조회 - 사용자 조회 => 게시글 좋아요 유무 조회
                 //MemberName에 해당하는 유저 없을 경우 404와 에러메세지 반환
-=======
-            if (memberName != "") {
-                //3-2-1. 사용자 조회
->>>>>>> Stashed changes
                 member = memberRepository.findByMemberName(memberName).orElseThrow(
                         () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
                 );
