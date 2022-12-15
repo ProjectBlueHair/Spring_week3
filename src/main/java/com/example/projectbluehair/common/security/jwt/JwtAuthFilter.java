@@ -1,13 +1,11 @@
 package com.example.projectbluehair.common.security.jwt;
 
-import com.example.projectbluehair.common.security.exception.CustomAuthenticationEntryPoint;
 import com.example.projectbluehair.common.security.exception.CustomSecurityException;
 import com.example.projectbluehair.common.security.exception.CustomSecurityErrorCode;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -63,7 +61,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 //        }
 
         // 1. Request에서 토큰 추출
-        String token = jwtUtil.resolveToken(request);
+        String token = jwtUtil.resolveToken(request, "AccessToken");
 
         // 2. Token 유효성 검사 및 인증
         // 2-1. Token 존재 여부 확인
@@ -72,7 +70,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throw new CustomSecurityException(CustomSecurityErrorCode.JWT_NOT_FOUND);
         }
         // 2-2. Token 유효성 확인
-        if(!jwtUtil.validateToken(token)){
+        if(!jwtUtil.validateAccessToken(token, request, response)){
             System.out.println("Token is invalid");
             throw new CustomSecurityException(CustomSecurityErrorCode.INVALID_JWT);
         }
@@ -84,7 +82,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-    public void setAuthentication(String memberName) {
+    private void setAuthentication(String memberName) {
         // 1. Security Context 생성
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         // 2. Authentication 생성
