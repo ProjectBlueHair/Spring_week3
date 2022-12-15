@@ -56,6 +56,7 @@ public class ProjectBlueHairApplication {
             InputStream jsonMember = this.getClass().getClassLoader().getResourceAsStream("json/MemberData.json");
             InputStream jsonForum = this.getClass().getClassLoader().getResourceAsStream("json/ForumData.json");
             InputStream jsonComment = this.getClass().getClassLoader().getResourceAsStream("json/CommentData.json");
+            InputStream jsonForumLike = this.getClass().getClassLoader().getResourceAsStream("json/ForumLikeData.json");
 
             //1. 회원저장 >>>> 회원정보 10개 저장, user1은 비밀번호 111, user2는 비밀번호 222
             List<SignUpRequestDto> signUpRequestDtoList = new ObjectMapper().readValue(jsonMember, new TypeReference<>() {

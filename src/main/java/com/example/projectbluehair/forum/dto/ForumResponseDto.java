@@ -19,7 +19,7 @@ public class ForumResponseDto {
     private Long liekCount;
     private boolean liked;
 
-    private List<ForumCommentResponseDto> commentList = new ArrayList<>(); //<<수정포인트1>> comment부분 수정 필요
+    private List<ForumCommentResponseDto> commentList = new ArrayList<>(); //<<검토포인트>>
 
     public ForumResponseDto(Forum forum, Long likeCount) {
         this.forumId = forum.getForumId();
@@ -29,7 +29,7 @@ public class ForumResponseDto {
         this.createdAt = forum.getCreatedAt();
         this.liekCount = 0L; //최초 게시글 좋아요 0
         this.liked = false;
-        this.commentList = null; // forum.getCommentList(); //<<수정포인트1>>
+        this.commentList = null; //<<검토포인트>>
     }
 
     public ForumResponseDto(Forum forum, Long likeCount, boolean liked, Long memberId) {
@@ -41,42 +41,29 @@ public class ForumResponseDto {
         this.liekCount = likeCount;
         this.liked = liked;
 
+        //1. 게시글 댓글 작업 시작
         if (forum.getCommentList().size() > 0) {
             for (int i = 0; i < forum.getCommentList().size(); i++) {
-                if (forum.getCommentList().get(i).getParentCommentId() == null) {
+                if (forum.getCommentList().get(i).getParentCommentId() == null) { //대댓글 중복 출력 방지
 
-                    //1. 댓글 좋아요 개수 체크
+                    //2. 댓글 좋아요 개수 체크
                     Long commentLikeCount = forum.getCommentList().get(i).getCommentLikeList().stream().count();
 
-                    //2. 댓글 좋아요 이력 체크 - 미완성///////////////
+                    //3. 댓글 좋아요 이력 체크(기본값 false)
                     boolean commentLiked = false;
 
-                    System.out.println("게시글 : "+forum);
-                    System.out.println("게시글 > 코멘트리스트1 : "+forum.getCommentList().get(i).toString());
-                    System.out.println("게시글 > 코멘트리스트2: "+forum.getCommentList().toString());
-                    System.out.println("게시글 > 코멘트 리스트 > 좋아요 " + forum.getCommentList().get(i).getCommentLikeList().toString());
-
-                    for(int x = 0; x < forum.getCommentList().get(i).getCommentLikeList().size(); i++){
-                        System.out.println("test11 : " + forum.getCommentList().get(i).getCommentLikeList().get(x).getMember().getMemberName());
-
-                        if (forum.getCommentList().get(i).getCommentLikeList().get(x).getMember().getId().equals(memberId)){
-                            System.out.println("test22 : " + forum.getCommentList().get(i).getCommentLikeList().get(x).getMember().getMemberName());
-
+                    for (int x = 0; x < forum.getCommentList().get(i).getCommentLikeList().size(); x++) {
+                        if (forum.getCommentList().get(i).getCommentLikeList().get(x).getMember().getId().equals(memberId)) {
                             commentLiked = true;
-                            break;
                         }
                     }
 
-                    //3. 하위 댓글 작업 진행
+                    //4. 하위 댓글 작업 진행 - 하위 댓글 리스트, 댓글 좋아요 개수, 댓글 좋아요 이력, 회원ID
                     commentList.add(new ForumCommentResponseDto(forum.getCommentList().get(i), commentLikeCount, commentLiked, memberId));
                 }
             }
         } else {
-            this.commentList = null;
-        } //<<수정포인트1>>
-
-
+            this.commentList = null;  //<<검토포인트>>
+        }
     }
-
-
 }
