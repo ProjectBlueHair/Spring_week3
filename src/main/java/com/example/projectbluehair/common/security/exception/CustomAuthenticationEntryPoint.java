@@ -1,6 +1,7 @@
 package com.example.projectbluehair.common.security.exception;
 
 import com.example.projectbluehair.common.response.ResponseDto;
+import com.example.projectbluehair.common.security.jwt.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
+
+        // 이런 식으로 AccessToken 넣으면 될듯
+        response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, "Sample Access Token");
+        response.addHeader(JwtUtil.AUTHORIZATION_REFRESH, "Sample Refresh Token");
 
         try (OutputStream os = response.getOutputStream()) {
             ObjectMapper objectMapper = new ObjectMapper();

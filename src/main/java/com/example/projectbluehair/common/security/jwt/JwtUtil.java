@@ -94,7 +94,7 @@ public class JwtUtil {
     }
 
     // 토큰에서 사용자 정보 가져오기
-    public Claims getUserInfoFromHttpServletRequest(HttpServletRequest httpServletRequest) {
+    public Claims getUserInfoFromHttpServletRequest(HttpServletRequest httpServletRequest) throws CustomSecurityException {
         // Request에서 Token 가져오기
         String token = resolveToken(httpServletRequest);
 
