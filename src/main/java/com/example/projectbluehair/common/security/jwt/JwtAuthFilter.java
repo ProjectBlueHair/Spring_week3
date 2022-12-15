@@ -70,10 +70,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throw new CustomSecurityException(CustomSecurityErrorCode.JWT_NOT_FOUND);
         }
         // 2-2. Token 유효성 확인
-        if(!jwtUtil.validateToken(token)){
+        if(!jwtUtil.validateAccessToken(token, request, response)){
             System.out.println("Token is invalid");
-//             유효하지 않은 경우(만료된 경우) 토큰 재발급
-//            response.addHeader("Test", "test");
             throw new CustomSecurityException(CustomSecurityErrorCode.INVALID_JWT);
         }
         // 3. 사용자 인증
@@ -84,7 +82,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-    public void setAuthentication(String memberName) {
+    private void setAuthentication(String memberName) {
         // 1. Security Context 생성
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         // 2. Authentication 생성
