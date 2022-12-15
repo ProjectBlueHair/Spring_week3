@@ -19,9 +19,10 @@ public class ForumSaveResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private int liekCount;
+    private boolean liked;
 
     @JsonIgnore
-    private List<Comment> commentList = new ArrayList<>(); //<<수정포인트1>> comment부분 수정 필요
+    private List<Comment> commentList = new ArrayList<>(); //<<참고포인트>>
 
     public ForumSaveResponseDto(Forum forum) {
         this.forumId = forum.getForumId();
@@ -30,7 +31,8 @@ public class ForumSaveResponseDto {
         this.content = forum.getContent();
         this.createdAt = forum.getCreatedAt();
         this.liekCount = 0; //최초 게시글 좋아요 0
-        //this.commentList = new ArrayList<>(); //<<수정포인트1>>
+        this.liked = false; //최초 게시글 좋아요 이력 false
+        //this.commentList = new ArrayList<>(); //<<참고포인트>>
     }
 
 }

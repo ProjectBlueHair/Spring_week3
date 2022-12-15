@@ -1,0 +1,30 @@
+[
+  {
+    "forum_id": "1",
+    "member_id": "1"
+  },
+  {
+    "forum_id": "2",
+    "member_id": "1"
+  },
+  {
+    "forum_id": "3",
+    "member_id": "1"
+  },
+  {
+    "forum_id": "1",
+    "member_id": "2"
+  },
+  {
+    "forum_id": "2",
+    "member_id": "2"
+  },
+  {
+    "forum_id": "3",
+    "member_id": "2"
+  },
+  {
+    "forum_id": "3",
+    "member_id": "1"
+  }
+]
