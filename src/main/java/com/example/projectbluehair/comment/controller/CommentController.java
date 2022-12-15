@@ -61,9 +61,16 @@ public class CommentController {
 
     //좋아요 누르기.
     @PostMapping("/comment/like/{commentId}")
-    public ResponseEntity<ResponseDto> addCommentLike(@PathVariable long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<ResponseDto> addCommentLike(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         commentService.addCommentLike(commentId, userDetails.getMember());
         return successResponse.respond(HttpStatus.OK, "좋아요 누르기 완료", null);
+    }
+
+    //좋아요 취소하기.
+    @DeleteMapping("/comment/like/{commentId}")
+    public ResponseEntity<ResponseDto> cancleCommentLike(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        commentService.cancleCommentLike(commentId, userDetails.getMember());
+        return successResponse.respond(HttpStatus.OK, "좋아요 취소 완료", null);
     }
 
 }

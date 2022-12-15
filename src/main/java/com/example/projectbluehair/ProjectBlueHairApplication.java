@@ -39,18 +39,14 @@ public class ProjectBlueHairApplication {
 
     @Resource
     private MemberRepository memberRepository;
-
     @Resource
     private MemberMapper memberMapper;
-
     @Resource
     private PasswordEncoder passwordEncoder;
 
     @Resource
     private ForumRepository forumRepository;
 
-    @Resource
-    private CommentRepository commentRepository;
 
     @Bean
     public ApplicationRunner applicationRunner() {
@@ -59,7 +55,6 @@ public class ProjectBlueHairApplication {
             //0. json파일 준비
             InputStream jsonMember = this.getClass().getClassLoader().getResourceAsStream("json/MemberData.json");
             InputStream jsonForum = this.getClass().getClassLoader().getResourceAsStream("json/ForumData.json");
-            InputStream jsonComment = this.getClass().getClassLoader().getResourceAsStream("json/CommentData.json");
 
             //1. 회원저장 >>>> 회원정보 10개 저장, user1은 비밀번호 111, user2는 비밀번호 222
             List<SignUpRequestDto> signUpRequestDtoList = new ObjectMapper().readValue(jsonMember, new TypeReference<>() {

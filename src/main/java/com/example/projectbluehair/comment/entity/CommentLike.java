@@ -24,4 +24,10 @@ public class CommentLike {
     @ManyToOne
     @JoinColumn(name = "COMMENT_ID", nullable = false)
     private Comment comment;
+
+
+    public CommentLike(Comment comment, Member member) {
+        this.member = member;
+        this.comment = comment;
+    }
 }
