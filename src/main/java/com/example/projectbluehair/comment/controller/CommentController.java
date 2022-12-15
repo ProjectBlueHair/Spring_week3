@@ -21,19 +21,6 @@ public class CommentController {
     private final CommentService commentService;
     private final SuccessResponse successResponse;
 
-    //댓글 작성하기.
-    /*@PostMapping(value ={"/forum/comment/{forumId}/{parentCommentId, /forum/comment/{forumId}}"})
-    public ResponseEntity<CommentSaveResponseDto> commentPost(@PathVariable long forumId, @PathVariable(required = false) Integer parentCommentId, @RequestBody CommentSaveRequestDto requestDto,
-                                                              @AuthenticationPrincipal UserDetailsImpl userDetails){
-        if(parentCommentId == null){
-            parentCommentId = 0;
-        }
-        // 1. commentPost 서비스 실행 (CommentResponseDto 반환)
-        // 2. ResponseDto에 CommentResponseDto 넣기 -> 민호님 객체 만드시면 수정
-        // 3. Response Entity에 담아서 반환
-        return new ResponseEntity<>(commentService.commentPost(requestDto.tocommentDto(), userDetails.getMember(), forum_id, parentCommentId), HttpStatus.OK);
-
-    }*/
     //댓글 작성하기
     @PostMapping("/forum/comment/{forumId}")
     public ResponseEntity<ResponseDto> commentPost(@PathVariable long forumId, @RequestBody CommentSaveRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -45,9 +32,6 @@ public class CommentController {
     //댓글 수정하기.
     @PatchMapping("/forum/comment/{commentId}")
     public ResponseEntity<ResponseDto> commentUpdate(@PathVariable long commentId, @RequestBody CommentUpdateRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        System.out.println("Control_commentID = " + commentId);
-        System.out.println("Control_content = " + requestDto.getContent());
-        System.out.println("Control_member = " + userDetails.getMember().getId());
         CommentUpdateResponseDto data = commentService.commentupdate(requestDto.tocommentDto(), userDetails.getMember(), commentId);
         return successResponse.respondDataOnly(HttpStatus.OK, data); //데이터만 전송.
     }
