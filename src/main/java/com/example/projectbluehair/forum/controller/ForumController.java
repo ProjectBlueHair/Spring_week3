@@ -25,7 +25,13 @@ public class ForumController {
 
     @GetMapping("") //1. 전체게시글 조회///////////
     public ResponseEntity<ResponseDto> getForumList(@AuthenticationPrincipal UserDetails userDetails) {
-        ForumListResponseDto data = forumService.getForumList(userDetails.getUsername());
+        String memberName = "";
+        if (userDetails != null) {
+            memberName = userDetails.getUsername();
+        }
+
+        memberName = "user1";//삭ㅈ해야딤//////////
+        ForumListResponseDto data = forumService.getForumList(memberName);
         return successResponse.respondDataOnly(HttpStatus.OK,data); //data만 전송
     }
 
@@ -37,7 +43,12 @@ public class ForumController {
 
     @GetMapping("/{forumId}") //3. 게시글 조회 - 검토필요>>>>>
     public ResponseEntity<ResponseDto> getForum(@PathVariable Long forumId,  @AuthenticationPrincipal UserDetails userDetails) {
-        ForumResponseDto data = forumService.getForum(forumId, userDetails.getUsername());
+        String memberName = "";
+        if (userDetails != null) {
+            memberName = userDetails.getUsername();
+        }
+
+        ForumResponseDto data = forumService.getForum(forumId, memberName);
         return successResponse.respondDataOnly(HttpStatus.OK, data); //data만 전송
     }
 
