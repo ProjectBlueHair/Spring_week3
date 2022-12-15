@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> {
     //Comment테이블의 CommentId와 Member테이블의 memberID를 사용한다
     //By뒤는 조건문.
-    boolean existsByComment_CommentidAndMember_Id(Long commentId, Long id);
+    boolean existsByComment_CommentIdAndMember_Id(Long commentId, Long id);
 
-    Optional<CommentLike> findByComment_CommentidAndMember_Id(Long commentId, Long id);
+    Optional<CommentLike> findByComment_CommentIdAndMember_Id(Long commentId, Long id);
 }
