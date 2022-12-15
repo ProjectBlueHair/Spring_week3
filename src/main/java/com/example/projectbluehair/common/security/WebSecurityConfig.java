@@ -54,8 +54,9 @@ public class WebSecurityConfig {
                 // SignUp, Login api는 인증 없이도 승인
                 antMatchers("/signup").permitAll().
                 antMatchers("/login").permitAll().
-                antMatchers("/forum").permitAll().
-                antMatchers("/forum/{path:[0-9]*}").permitAll().
+//                // 게시글 조회 관련 예외처리 해제
+//                antMatchers("/forum").permitAll().
+//                antMatchers("/forum/{path:[0-9]*}").permitAll().
                 // .anyRequest().authenticated() : 나머지 모든 Request에 대해, 인증 필요.
                 anyRequest().authenticated();
 
