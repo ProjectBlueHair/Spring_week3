@@ -1,7 +1,6 @@
 package com.example.projectbluehair;
 
 import com.example.projectbluehair.comment.dto.CommentSaveRequestDto;
-import com.example.projectbluehair.comment.dto.CommentSaveResponseDto;
 import com.example.projectbluehair.comment.entity.Comment;
 import com.example.projectbluehair.comment.repository.CommentRepository;
 import com.example.projectbluehair.forum.dto.ForumSaveRequestDto;
@@ -9,7 +8,6 @@ import com.example.projectbluehair.forum.entity.Forum;
 import com.example.projectbluehair.forum.exception.CustomForumErrorCode;
 import com.example.projectbluehair.forum.exception.CustomForumException;
 import com.example.projectbluehair.forum.repository.ForumRepository;
-import com.example.projectbluehair.member.dto.SignUpDto;
 import com.example.projectbluehair.member.dto.SignUpRequestDto;
 import com.example.projectbluehair.member.entity.Member;
 import com.example.projectbluehair.member.entity.MemberMapper;
@@ -26,9 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @EnableJpaAuditing
 @SpringBootApplication
