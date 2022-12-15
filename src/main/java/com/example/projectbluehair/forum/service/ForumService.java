@@ -27,7 +27,7 @@ public class ForumService {
     //1. 전체게시글 조회
     @Transactional(readOnly = true)
     public ForumListResponseDto getForumList(String memberName) {
-        List<Forum> forumList =  forumRepository.findAllByOrderByCreatedAtDesc();
+        List<Forum> forumList = forumRepository.findAllByOrderByCreatedAtDesc();
 
         ForumListResponseDto forumListResDto = new ForumListResponseDto();
 
@@ -35,14 +35,17 @@ public class ForumService {
             //2. 좋아요 개수 조회
             Long likeCount = forumLikeRepository.countByForum_ForumId(forum.getForumId());
 
-            //3. 게시글 좋아요 이력 조회 - 사용자 조회 => 게시글 좋아요 유무 조회
-            Member member = memberRepository.findByMemberName(memberName).orElseThrow(
-                    () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
-            );
+            boolean liked = false;
+            Member member = new Member();
+            if (memberName != "") {
+                //3. 게시글 좋아요 이력 조회 - 사용자 조회 => 게시글 좋아요 유무 조회
+                member = memberRepository.findByMemberName(memberName).orElseThrow(
+                        () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                );
 
-            boolean liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forum.getForumId(), member.getId());
-
-            forumListResDto.addForum(new ForumResponseDto(forum, likeCount, liked));
+                liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forum.getForumId(), member.getId());
+            }
+            forumListResDto.addForum(new ForumResponseDto(forum, likeCount, liked, member.getId()));
         }
 
         return forumListResDto;
@@ -72,24 +75,27 @@ public class ForumService {
     public ForumResponseDto getForum(Long forumId, String memberName) {
         //1. 게시글 조회
         Forum forum = forumRepository.findById(forumId).orElseThrow(
-                ()-> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+                () -> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
         );
 
         //2. 좋아요 개수 조회
         Long likeCount = forumLikeRepository.countByForum_ForumId(forumId);
 
         //3. 게시글 좋아요 이력 조회 - 사용자 조회 => 게시글 좋아요 유무 조회
-        Member member = memberRepository.findByMemberName(memberName).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
-        );
+        boolean liked = false;
+        Member member = new Member();
+        if (memberName != "") {
+            member = memberRepository.findByMemberName(memberName).orElseThrow(
+                    () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+            );
 
-        boolean liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forumId , member.getId());
-
+            liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forumId, member.getId());
+        }
         //System.out.println("좋아요 존재 : " + liked);
         //System.out.println("3. 좋아요 개수 ForumService.getForum : " + likeCount);
 
         //4. 게시글 반환 Entity -> Dto
-        return new ForumResponseDto(forum, likeCount, liked);
+        return new ForumResponseDto(forum, likeCount, liked, member.getId());
     }
 
     //4. 게시물 수정
@@ -97,7 +103,7 @@ public class ForumService {
     public ForumResponseDto updateForum(Long forumId, ForumUpdateRequestDto forumUpdateReqDto, String memberName) {
         //1. 게시글 조회
         Forum forum = forumRepository.findById(forumId).orElseThrow(
-                ()-> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+                () -> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
         );
 
         //2. 사용자 조회
@@ -106,7 +112,7 @@ public class ForumService {
         );
 
         //3. 게시글 소유자 검사
-        if (!forum.getMember().getId().equals(member.getId())){
+        if (!forum.getMember().getId().equals(member.getId())) {
             throw new CustomForumException(CustomForumErrorCode.FORUM_NOT_PERMISSION);
         }
 
@@ -115,19 +121,19 @@ public class ForumService {
         forum.setContent(forumUpdateReqDto.getContent());
 
         /** 구현 방법 논의 필요 - >>>>>
-        //5. 좋아요 개수 조회
-        Long likeCount = forumLikeRepository.countByForum_ForumId(forumId);
+         //5. 좋아요 개수 조회
+         Long likeCount = forumLikeRepository.countByForum_ForumId(forumId);
 
-        //6. 게시글 좋아요 이력 조회 - 사용자 조회 => 게시글 좋아요 유무 조회
-        member = memberRepository.findByMemberName(memberName).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
-        );
+         //6. 게시글 좋아요 이력 조회 - 사용자 조회 => 게시글 좋아요 유무 조회
+         member = memberRepository.findByMemberName(memberName).orElseThrow(
+         () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+         );
 
-        boolean liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forumId , member.getId());
+         boolean liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forumId , member.getId());
 
-        //7. 수정 게시글 반환 Entity -> Dto
-        //return new ForumResponseDto(forum, likeCount, liked);
-        **/
+         //7. 수정 게시글 반환 Entity -> Dto
+         //return new ForumResponseDto(forum, likeCount, liked);
+         **/
         return getForum(forumId, memberName);
     }
 
@@ -145,7 +151,7 @@ public class ForumService {
         );
 
         //3. 게시글 소유자 검사
-        if (!forum.getMember().getId().equals(member.getId())){
+        if (!forum.getMember().getId().equals(member.getId())) {
             throw new CustomForumException(CustomForumErrorCode.FORUM_NOT_PERMISSION);
         }
 
@@ -167,7 +173,7 @@ public class ForumService {
     public void addForumLike(Long forumId, String memberName) {
         //1. 게시글 조회
         Forum forum = forumRepository.findById(forumId).orElseThrow(
-                ()-> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+                () -> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
         );
 
         //2. 사용자 조회
@@ -176,7 +182,7 @@ public class ForumService {
         );
 
         //3. 게시글 좋아요 이력 조회
-        boolean liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forumId , member.getId());
+        boolean liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forumId, member.getId());
 
         if (liked) {
             throw new CustomForumException(CustomForumErrorCode.FORUM_LIKE_ALREADY_EXIST);
@@ -192,7 +198,7 @@ public class ForumService {
     public void deleteForumLike(Long forumId, String memberName) {
         //1. 게시글 조회
         Forum forum = forumRepository.findById(forumId).orElseThrow(
-                ()-> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+                () -> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
         );
 
         //2. 사용자 조회
@@ -201,7 +207,7 @@ public class ForumService {
         );
 
         //3. 게시글 좋아요 조회
-        ForumLike forumLike = forumLikeRepository.findByForum_ForumIdAndMember_Id(forumId,member.getId()).orElseThrow(
+        ForumLike forumLike = forumLikeRepository.findByForum_ForumIdAndMember_Id(forumId, member.getId()).orElseThrow(
                 () -> new CustomForumException(CustomForumErrorCode.FORUM_LIKE_NOT_FOUND)
         );
 

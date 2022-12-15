@@ -2,6 +2,7 @@ package com.example.projectbluehair.forum.dto;
 
 import com.example.projectbluehair.comment.entity.Comment;
 import com.example.projectbluehair.forum.entity.Forum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -19,7 +20,8 @@ public class ForumSaveResponseDto {
     private LocalDateTime createdAt;
     private int liekCount;
 
-    private List<Comment> commentList; //<<수정포인트1>> comment부분 수정 필요
+    @JsonIgnore
+    private List<Comment> commentList = new ArrayList<>(); //<<수정포인트1>> comment부분 수정 필요
 
     public ForumSaveResponseDto(Forum forum) {
         this.forumId = forum.getForumId();
@@ -28,7 +30,7 @@ public class ForumSaveResponseDto {
         this.content = forum.getContent();
         this.createdAt = forum.getCreatedAt();
         this.liekCount = 0; //최초 게시글 좋아요 0
-        this.commentList = forum.getCommentList(); //<<수정포인트1>>
+        //this.commentList = new ArrayList<>(); //<<수정포인트1>>
     }
 
 }
