@@ -29,6 +29,7 @@ import java.util.Date;
 public class JwtUtil {
     // Header의 Key 값
     public static final String AUTHORIZATION_ACCESS = "AccessToken";
+    public static final String AUTHORIZATION_REFRESH = "RefreshToken";
     // 사용자 권한 값의 Key
     public static final String AUTHORIZATION_KEY = "auth";
     private final UserDetailsServiceImpl userDetailsService;
@@ -94,7 +95,7 @@ public class JwtUtil {
     }
 
     // 토큰에서 사용자 정보 가져오기
-    public Claims getUserInfoFromHttpServletRequest(HttpServletRequest httpServletRequest) {
+    public Claims getUserInfoFromHttpServletRequest(HttpServletRequest httpServletRequest) throws CustomSecurityException {
         // Request에서 Token 가져오기
         String token = resolveToken(httpServletRequest);
 

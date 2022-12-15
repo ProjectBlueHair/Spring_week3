@@ -51,11 +51,21 @@ public class ForumResponseDto {
                     //2. 댓글 좋아요 이력 체크 - 미완성///////////////
                     boolean commentLiked = false;
 
-//                    for(int x = 0; x < forum.getCommentList().get(i).getCommentLikeList().size(); i++){
-//                        if (forum.getCommentList().get(i).getCommentLikeList().get(x).getMember().getId().equals(memberId)){
-//                            commentLiked = true;
-//                        }
-//                    }
+                    System.out.println("게시글 : "+forum);
+                    System.out.println("게시글 > 코멘트리스트1 : "+forum.getCommentList().get(i).toString());
+                    System.out.println("게시글 > 코멘트리스트2: "+forum.getCommentList().toString());
+                    System.out.println("게시글 > 코멘트 리스트 > 좋아요 " + forum.getCommentList().get(i).getCommentLikeList().toString());
+
+                    for(int x = 0; x < forum.getCommentList().get(i).getCommentLikeList().size(); i++){
+                        System.out.println("test11 : " + forum.getCommentList().get(i).getCommentLikeList().get(x).getMember().getMemberName());
+
+                        if (forum.getCommentList().get(i).getCommentLikeList().get(x).getMember().getId().equals(memberId)){
+                            System.out.println("test22 : " + forum.getCommentList().get(i).getCommentLikeList().get(x).getMember().getMemberName());
+
+                            commentLiked = true;
+                            break;
+                        }
+                    }
 
                     //3. 하위 댓글 작업 진행
                     commentList.add(new ForumCommentResponseDto(forum.getCommentList().get(i), commentLikeCount, commentLiked, memberId));
