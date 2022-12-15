@@ -5,8 +5,6 @@ import com.example.projectbluehair.common.exception.CustomException;
 import com.example.projectbluehair.forum.dto.*;
 import com.example.projectbluehair.forum.entity.Forum;
 import com.example.projectbluehair.forum.entity.ForumLike;
-import com.example.projectbluehair.forum.exception.CustomForumErrorCode;
-import com.example.projectbluehair.forum.exception.CustomForumException;
 import com.example.projectbluehair.forum.repository.ForumLikeRepository;
 import com.example.projectbluehair.forum.repository.ForumRepository;
 import com.example.projectbluehair.member.entity.Member;
@@ -15,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
