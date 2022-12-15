@@ -28,9 +28,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
-        // 이런 식으로 AccessToken 넣으면 될듯
-        response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, "Sample Access Token");
-
         try (OutputStream os = response.getOutputStream()) {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writeValue(os, responseDto);
