@@ -93,7 +93,8 @@ public class MemberService {
         }
 
         // 3. Token 발급
-        response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, jwtUtil.createToken(member.getMemberName(), member.getRole()));
+        response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, jwtUtil.createAccessToken(member.getMemberName(), member.getRole()));
+        response.addHeader(JwtUtil.AUTHORIZATION_REFRESH, jwtUtil.createRefreshToken());
 
         return new LoginResponseDto(member);
     }

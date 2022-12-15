@@ -1,13 +1,11 @@
 package com.example.projectbluehair.common.security.jwt;
 
-import com.example.projectbluehair.common.security.exception.CustomAuthenticationEntryPoint;
 import com.example.projectbluehair.common.security.exception.CustomSecurityException;
 import com.example.projectbluehair.common.security.exception.CustomSecurityErrorCode;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -63,7 +61,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 //        }
 
         // 1. Request에서 토큰 추출
-        String token = jwtUtil.resolveToken(request);
+        String token = jwtUtil.resolveToken(request, "AccessToken");
 
         // 2. Token 유효성 검사 및 인증
         // 2-1. Token 존재 여부 확인
@@ -74,6 +72,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // 2-2. Token 유효성 확인
         if(!jwtUtil.validateToken(token)){
             System.out.println("Token is invalid");
+//             유효하지 않은 경우(만료된 경우) 토큰 재발급
+//            response.addHeader("Test", "test");
             throw new CustomSecurityException(CustomSecurityErrorCode.INVALID_JWT);
         }
         // 3. 사용자 인증
