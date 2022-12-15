@@ -57,10 +57,6 @@ public class CommentService {
     //댓글 수정
     @Transactional
     public CommentUpdateResponseDto commentupdate(CommentUpdateDto commentUpdateDto, Member member, long commentId) {
-        System.out.println("service_commentID = " + commentId);
-        System.out.println("service_content = " + commentUpdateDto.getContent());
-        System.out.println("service_member = " + member.getId());
-
         //댓글 내용
         String content = commentUpdateDto.getContent();
 
