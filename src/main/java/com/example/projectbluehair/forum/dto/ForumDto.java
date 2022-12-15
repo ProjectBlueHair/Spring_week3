@@ -1,6 +1,5 @@
 package com.example.projectbluehair.forum.dto;
 
-import com.example.projectbluehair.comment.dto.CommentDto;
 import com.example.projectbluehair.forum.entity.ForumLike;
 import com.example.projectbluehair.member.entity.Member;
 
@@ -16,7 +15,5 @@ public class ForumDto {
     private LocalDateTime createdAt;
     private boolean liked;
     private int liekCount;
-    private List<CommentDto> commentDtoList = new ArrayList<>();
-
-
+//    private List<CommentDto> commentDtoList = new ArrayList<>();
 }

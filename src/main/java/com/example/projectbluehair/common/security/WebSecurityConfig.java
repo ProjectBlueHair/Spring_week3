@@ -3,6 +3,7 @@ package com.example.projectbluehair.common.security;
 import com.example.projectbluehair.common.security.exception.CustomAccessDeniedHandler;
 import com.example.projectbluehair.common.security.exception.CustomAuthenticationEntryPoint;
 import com.example.projectbluehair.common.security.jwt.JwtAuthFilter;
+import com.example.projectbluehair.common.security.jwt.JwtExceptionHandlerFilter;
 import com.example.projectbluehair.common.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -18,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration      // Config 파일임을 명시
-@EnableWebSecurity  // Spring Security 활성화
+@EnableWebSecurity(debug = true)  // Spring Security 활성화, 디버그 옵션 실행 (필터 적용 순서 파악)
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
@@ -56,10 +57,13 @@ public class WebSecurityConfig {
                 antMatchers("/forum").permitAll().
                 antMatchers("/forum/{path:[0-9]*}").permitAll().
                 // .anyRequest().authenticated() : 나머지 모든 Request에 대해, 인증 필요.
-                anyRequest().authenticated().
-                // JWT Filter 등록
-                and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                anyRequest().authenticated();
 
+        // JWT Filter 등록
+        http.addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtExceptionHandlerFilter(), JwtAuthFilter.class);
+
+        // JWT Filter를 통과한 이후, 어떤 이유로 인해 토큰 만료 됐을 때 검증(ExceptionTranslationFilter)
         // 401 Error, 인증 실패
         http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
         // 403 Error, 권한 오류

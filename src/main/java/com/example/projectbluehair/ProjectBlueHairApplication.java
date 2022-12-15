@@ -1,6 +1,6 @@
 package com.example.projectbluehair;
 
-import com.example.projectbluehair.comment.dto.CommentDto;
+//import com.example.projectbluehair.comment.dto.CommentDto;
 import com.example.projectbluehair.comment.dto.CommentSaveRequestDto;
 import com.example.projectbluehair.comment.dto.CommentSaveResponseDto;
 import com.example.projectbluehair.comment.entity.Comment;
