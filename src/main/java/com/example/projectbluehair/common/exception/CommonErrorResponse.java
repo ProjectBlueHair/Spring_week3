@@ -1,4 +1,4 @@
-package com.example.projectbluehair.forum.exception;
+package com.example.projectbluehair.common.exception;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,20 +6,19 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
-
 @Getter
 @Builder
-public class CustomForumErrorResponse {
+public class CommonErrorResponse {
     private final LocalDateTime timestamp = LocalDateTime.now();
     private final int status;
     private final String error;
     private final String code;
     private final String message;
 
-    public static ResponseEntity<com.example.projectbluehair.forum.exception.CustomForumErrorResponse> toResponseEntity(CustomForumErrorCode errorCode) {
+    public static ResponseEntity<CommonErrorResponse> toResponseEntity(CommonErrorCode errorCode) {
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
-                .body(com.example.projectbluehair.forum.exception.CustomForumErrorResponse.builder()
+                .body(CommonErrorResponse.builder()
                         .status(errorCode.getHttpStatus().value())
                         .error(errorCode.getHttpStatus().name())
                         .code(errorCode.name())
