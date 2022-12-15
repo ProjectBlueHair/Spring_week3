@@ -1,5 +1,7 @@
 package com.example.projectbluehair.forum.service;
 
+import com.example.projectbluehair.common.exception.CommonErrorCode;
+import com.example.projectbluehair.common.exception.CustomException;
 import com.example.projectbluehair.forum.dto.*;
 import com.example.projectbluehair.forum.entity.Forum;
 import com.example.projectbluehair.forum.entity.ForumLike;
@@ -37,10 +39,11 @@ public class ForumService {
 
             boolean liked = false;
             Member member = new Member();
-            if (memberName != "") {
+            if (memberName.equals("")) {
                 //3. 게시글 좋아요 이력 조회 - 사용자 조회 => 게시글 좋아요 유무 조회
+                //MemberName에 해당하는 유저 없을 경우 404와 에러메세지 반환
                 member = memberRepository.findByMemberName(memberName).orElseThrow(
-                        () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                        () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
                 );
 
                 liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forum.getForumId(), member.getId());
@@ -57,7 +60,7 @@ public class ForumService {
 
         //1. 회원 검색
         Member member = memberRepository.findByMemberName(memberName).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
         );
 
         //2. 게시글 Dto -> Entity
@@ -75,7 +78,7 @@ public class ForumService {
     public ForumResponseDto getForum(Long forumId, String memberName) {
         //1. 게시글 조회
         Forum forum = forumRepository.findById(forumId).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.FORUM_NOT_FOUND)
         );
 
         //2. 좋아요 개수 조회
@@ -84,9 +87,9 @@ public class ForumService {
         //3. 게시글 좋아요 이력 조회 - 사용자 조회 => 게시글 좋아요 유무 조회
         boolean liked = false;
         Member member = new Member();
-        if (memberName != "") {
+        if (memberName.equals("")) {
             member = memberRepository.findByMemberName(memberName).orElseThrow(
-                    () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                    () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
             );
 
             liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forumId, member.getId());
@@ -103,17 +106,17 @@ public class ForumService {
     public ForumResponseDto updateForum(Long forumId, ForumUpdateRequestDto forumUpdateReqDto, String memberName) {
         //1. 게시글 조회
         Forum forum = forumRepository.findById(forumId).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.FORUM_NOT_FOUND)
         );
 
         //2. 사용자 조회
         Member member = memberRepository.findByMemberName(memberName).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
         );
 
         //3. 게시글 소유자 검사
         if (!forum.getMember().getId().equals(member.getId())) {
-            throw new CustomForumException(CustomForumErrorCode.FORUM_NOT_PERMISSION);
+            throw new CustomException(CommonErrorCode.FORUM_NOT_PERMISSION);
         }
 
         //4. 게시글 수정
@@ -142,17 +145,17 @@ public class ForumService {
     public void deleteForum(Long forumId, String memberName) {
         //1. 게시글 조회
         Forum forum = forumRepository.findById(forumId).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.FORUM_NOT_FOUND)
         );
 
         //2. 사용자 조회
         Member member = memberRepository.findByMemberName(memberName).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
         );
 
         //3. 게시글 소유자 검사
         if (!forum.getMember().getId().equals(member.getId())) {
-            throw new CustomForumException(CustomForumErrorCode.FORUM_NOT_PERMISSION);
+            throw new CustomException(CommonErrorCode.FORUM_NOT_PERMISSION);
         }
 
         //4. 게시글 삭제 - 댓글과 삭제 검토 필요>>>>>
@@ -173,19 +176,19 @@ public class ForumService {
     public void addForumLike(Long forumId, String memberName) {
         //1. 게시글 조회
         Forum forum = forumRepository.findById(forumId).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.FORUM_NOT_FOUND)
         );
 
         //2. 사용자 조회
         Member member = memberRepository.findByMemberName(memberName).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
         );
 
         //3. 게시글 좋아요 이력 조회
         boolean liked = forumLikeRepository.existsByForum_ForumIdAndMember_Id(forumId, member.getId());
 
         if (liked) {
-            throw new CustomForumException(CustomForumErrorCode.FORUM_LIKE_ALREADY_EXIST);
+            throw new CustomException(CommonErrorCode.FORUM_LIKE_ALREADY_EXIST);
         }
 
         //4. 좋아요 추가
@@ -198,17 +201,17 @@ public class ForumService {
     public void deleteForumLike(Long forumId, String memberName) {
         //1. 게시글 조회
         Forum forum = forumRepository.findById(forumId).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.FORUM_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.FORUM_NOT_FOUND)
         );
 
         //2. 사용자 조회
         Member member = memberRepository.findByMemberName(memberName).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.MEMBER_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.MEMBER_NOT_FOUND)
         );
 
         //3. 게시글 좋아요 조회
         ForumLike forumLike = forumLikeRepository.findByForum_ForumIdAndMember_Id(forumId, member.getId()).orElseThrow(
-                () -> new CustomForumException(CustomForumErrorCode.FORUM_LIKE_NOT_FOUND)
+                () -> new CustomException(CommonErrorCode.FORUM_LIKE_NOT_FOUND)
         );
 
         //4. 좋아요 삭제
