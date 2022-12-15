@@ -104,7 +104,7 @@ public class CommentService {
         );
 
         //게시글을 작성한 적 있는지 확인하기.
-        boolean liked = commentLikeRepository.existsByComment_CommentidAndMember_Id(commentId, member.getId());
+        boolean liked = commentLikeRepository.existsByComment_CommentIdAndMember_Id(commentId, member.getId());
 
         if(liked) {
             throw new IllegalArgumentException("이미 좋아요를 눌렀습니다.");
@@ -127,7 +127,7 @@ public class CommentService {
                 () -> new IllegalArgumentException("사용자 정보가 없습니다. ")
         );
 
-        CommentLike commentLike = commentLikeRepository.findByComment_CommentidAndMember_Id(commentId,memberinfo.getId()).orElseThrow(
+        CommentLike commentLike = commentLikeRepository.findByComment_CommentIdAndMember_Id(commentId,memberinfo.getId()).orElseThrow(
                 () -> new IllegalArgumentException("좋아요를 누른적이 없습니다.")
         );
 

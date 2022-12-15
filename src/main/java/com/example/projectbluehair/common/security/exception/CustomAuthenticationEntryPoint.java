@@ -30,7 +30,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         // 이런 식으로 AccessToken 넣으면 될듯
         response.addHeader(JwtUtil.AUTHORIZATION_ACCESS, "Sample Access Token");
-        response.addHeader(JwtUtil.AUTHORIZATION_REFRESH, "Sample Refresh Token");
 
         try (OutputStream os = response.getOutputStream()) {
             ObjectMapper objectMapper = new ObjectMapper();
