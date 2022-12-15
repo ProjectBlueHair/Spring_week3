@@ -1,11 +1,13 @@
 package com.example.projectbluehair.common.security.jwt;
 
+import com.example.projectbluehair.common.security.exception.CustomAuthenticationEntryPoint;
 import com.example.projectbluehair.common.security.exception.CustomSecurityException;
 import com.example.projectbluehair.common.security.exception.CustomSecurityErrorCode;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,6 +26,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("JWTAuthFilter Called");
         // Login, SignUp 기능의 경우 해당 Filter 건너뜀.
         String uri = request.getRequestURI();
         if (uri.equals("/login") || uri.equals("/signup") || uri.equals("/forum")){
@@ -56,10 +59,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // 2. Token 유효성 검사 및 인증
         // 2-1. Token 존재 여부 확인
         if(token == null) {
+            System.out.println("There is no Token");
             throw new CustomSecurityException(CustomSecurityErrorCode.JWT_NOT_FOUND);
         }
         // 2-2. Token 유효성 확인
         if(!jwtUtil.validateToken(token)){
+            System.out.println("Token is invalid");
             throw new CustomSecurityException(CustomSecurityErrorCode.INVALID_JWT);
         }
         // 3. 사용자 인증
